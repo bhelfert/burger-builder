@@ -1,10 +1,22 @@
 import Burger from '../../components/Burger/Burger';
-import React from 'react';
+import React, { useState } from 'react';
 
-const BurgerBuilder = () =>
-    <>
-        <Burger />
-        <div>Build Controls</div>
-    </>;
+const BurgerBuilder = () => {
+    const [burger] = useState({
+        ingredients: {
+            salad: 1,
+            bacon: 1,
+            cheese: 2,
+            meat: 2
+        }
+    });
+
+    return (
+        <>
+            <Burger ingredients={burger.ingredients} />
+            <div>Build Controls</div>
+        </>
+    );
+}
 
 export default BurgerBuilder;
