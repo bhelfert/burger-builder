@@ -1,8 +1,9 @@
+import Burger from '../../components/Burger/Burger';
 import React from 'react';
 
 const BurgerBuilder = () =>
     <>
-        <div>Burger</div>
+        <Burger />
         <div>Build Controls</div>
     </>;
 
