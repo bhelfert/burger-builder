@@ -1,3 +1,4 @@
+import BuildControls from '../../components/BuildControls/BuildControls';
 import Burger from '../../components/Burger/Burger';
 import React, { useState } from 'react';
 
@@ -14,7 +15,7 @@ const BurgerBuilder = () => {
     return (
         <>
             <Burger ingredients={burger.ingredients} />
-            <div>Build Controls</div>
+            <BuildControls />
         </>
     );
 }
