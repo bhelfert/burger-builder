@@ -3,9 +3,14 @@ import React from 'react';
 import styles from './Burger.module.css';
 
 const Burger = props => {
-    const ingredients = Object.keys(props.ingredients)
+    let ingredients = Object.keys(props.ingredients)
         .map(ingredient => [...Array(props.ingredients[ingredient])]
-            .map((_, i) => <BurgerIngredient key={ingredient + i} type={ingredient} />));
+            .map((_, i) => <BurgerIngredient key={ingredient + i} type={ingredient} />))
+        .flat();
+
+    if (ingredients.length === 0) {
+        ingredients = <p>Please add some ingredients.</p>
+    }
 
     return (
         <div className={styles.burger}>
