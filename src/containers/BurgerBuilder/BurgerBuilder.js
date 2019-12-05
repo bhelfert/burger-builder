@@ -10,29 +10,27 @@ const BurgerBuilder = () => {
       meat: 1.3
     };
 
-    const [ingredients, setIngredients] = useState({
-        salad: 0,
-        bacon: 0,
-        cheese: 0,
-        meat: 0
+    const [burger, setBurger] = useState({
+        ingredients: {
+            salad: 0,
+            bacon: 0,
+            cheese: 0,
+            meat: 0
+        },
+        totalPrice: 0
     });
 
-    const [totalPrice, setTotalPrice] = useState(0);
-
     const updateIngredientAmountAndTotalPrice = (type, amountOperator) => {
-        const updatedAmount = (amountOperator === '+') ? ingredients[type] + 1 : ingredients[type] - 1;
-        const updatedIngredients = { ...ingredients };
-        updatedIngredients[type] = updatedAmount;
-        setIngredients(updatedIngredients);
-
-        const updatedTotalPrice =  (amountOperator === '+') ? totalPrice + INGREDIENT_PRICES[type] : totalPrice - INGREDIENT_PRICES[type];
-        setTotalPrice(updatedTotalPrice);
+        const updatedBurger = { ...burger };
+        updatedBurger.ingredients[type] = (amountOperator === '+') ? burger.ingredients[type] + 1 : burger.ingredients[type] - 1;
+        updatedBurger.totalPrice = (amountOperator === '+') ? burger.totalPrice + INGREDIENT_PRICES[type] : burger.totalPrice - INGREDIENT_PRICES[type];
+        setBurger(updatedBurger);
     };
 
     const handleAddIngredient = type => updateIngredientAmountAndTotalPrice(type, '+');
 
     const handleRemoveIngredient = type => {
-        if (ingredients[type] === 0) {
+        if (burger.ingredients[type] === 0) {
             return;
         }
         updateIngredientAmountAndTotalPrice(type, '-');
@@ -40,11 +38,11 @@ const BurgerBuilder = () => {
 
     return (
         <>
-            <Burger ingredients={ingredients}/>
+            <Burger ingredients={burger.ingredients}/>
             <BuildControls
                 onAddIngredient={handleAddIngredient}
                 onRemoveIngredient={handleRemoveIngredient}
-                price={totalPrice.toFixed(2)} />
+                price={burger.totalPrice.toFixed(2)} />
         </>
     );
 }
