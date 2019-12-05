@@ -19,7 +19,12 @@ const BurgerBuilder = () => {
 
     const handleAddIngredient = type => changeIngredientAmount(type, '+');
 
-    const handleRemoveIngredient = type => changeIngredientAmount(type, '-');
+    const handleRemoveIngredient = type => {
+        if (ingredients[type] === 0) {
+            return;
+        }
+        changeIngredientAmount(type, '-');
+    }
 
     return (
         <>
