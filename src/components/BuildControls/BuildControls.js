@@ -12,6 +12,7 @@ const CONTROLS = [
 
 const BuildControls = props =>
     <div className={styles.buildControls}>
+        <p>Current Price: <strong>{props.price}</strong></p>
         {CONTROLS.map(control =>
             <BuildControl
                 key={control.type}
@@ -22,7 +23,8 @@ const BuildControls = props =>
 
 BuildControls.propTypes = {
     onAddIngredient: PropTypes.func.isRequired,
-    onRemoveIngredient: PropTypes.func.isRequired
+    onRemoveIngredient: PropTypes.func.isRequired,
+    price: PropTypes.number.isRequired
 };
 
 export default BuildControls;
