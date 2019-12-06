@@ -1,0 +1,33 @@
+.close {
+    transform: translateX(-100%);
+}
+
+.logo {
+    height: 11%;
+}
+
+.sideDrawer {
+    background-color: white;
+    box-sizing: border-box;
+    left: 0;
+    height: 100%;
+    max-width: 70%;
+    padding: 32px 16px;
+    position: fixed;
+    top: 0;
+    transition: transform 0.3s ease-out;
+    width: 280px;
+    z-index: 200;
+}
+
+.open {
+    transform: translateX(0);
+}
+
+
+@media (min-width: 500px) {
+    .sideDrawer {
+        display: none;
+        margin-bottom: 32px;
+    }
+}
