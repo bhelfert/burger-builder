@@ -24,6 +24,8 @@ const BurgerBuilder = () => {
 
     const [checkout, setCheckout] = useState(false);
 
+    const handleCancelCheckout = () => setCheckout(false);
+
     const handleAddIngredient = type => updateIngredientAmountAndTotalPrice(type, '+');
 
     const handleRemoveIngredient = type => {
@@ -45,8 +47,11 @@ const BurgerBuilder = () => {
 
     return (
         <>
-            <Modal show={checkout} onModalClosed={() => setCheckout(false)} >
-                <OrderSummary ingredients={burger.ingredients} />
+            <Modal show={checkout} onModalClosed={handleCancelCheckout} >
+                <OrderSummary
+                    ingredients={burger.ingredients}
+                    onCancelCheckout={handleCancelCheckout}
+                    onContinueCheckout={() => alert('Yay! Burger incoming!!')} />
             </Modal>
             <Burger ingredients={burger.ingredients}/>
             <BuildControls

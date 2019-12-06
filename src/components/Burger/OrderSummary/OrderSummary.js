@@ -1,3 +1,4 @@
+import Button from "../../Button/Button";
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -15,12 +16,16 @@ const OrderSummary = props => {
                 {ingredientSummary}
             </ul>
             <p>Continue to checkout?</p>
+            <Button type='cancel' onClick={props.onCancelCheckout}>CANCEL</Button>
+            <Button type='ok' onClick={props.onContinueCheckout}>CONTINUE</Button>
         </>
     );
 }
 
 OrderSummary.propTypes = {
-    ingredients: PropTypes.object.isRequired
+    ingredients: PropTypes.object.isRequired,
+    onCancelCheckout: PropTypes.func.isRequired,
+    onContinueCheckout: PropTypes.func.isRequired
 };
 
 export default OrderSummary;
