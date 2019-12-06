@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const OrderSummary = props => {
-    const ingredientSummary = Object.entries(props.ingredients).map(([ingredient, amount]) =>
+    const ingredientsSummary = Object.entries(props.ingredients).map(([ingredient, amount]) =>
         <li key={ingredient}>
             <span style={{textTransform: "capitalize"}}>{ingredient}</span>: {amount}
         </li>);
@@ -13,7 +13,7 @@ const OrderSummary = props => {
             <h3>Your Order</h3>
             <p>A delicious burger with the following ingredients:</p>
             <ul>
-                {ingredientSummary}
+                {ingredientsSummary}
             </ul>
             <p><strong>Total Price: {props.price}</strong></p>
             <p>Continue to checkout?</p>
