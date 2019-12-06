@@ -2,6 +2,7 @@ import BuildControls from '../../components/BuildControls/BuildControls';
 import Burger from '../../components/Burger/Burger';
 import Modal from '../../components/Modal/Modal';
 import React, {useState} from 'react';
+import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 
 const BurgerBuilder = () => {
     const INGREDIENT_PRICES = {
@@ -42,7 +43,9 @@ const BurgerBuilder = () => {
 
     return (
         <>
-            <Modal />
+            <Modal>
+                <OrderSummary ingredients={burger.ingredients} />
+            </Modal>
             <Burger ingredients={burger.ingredients}/>
             <BuildControls
                 onAddIngredient={handleAddIngredient}
