@@ -18,13 +18,15 @@ const BuildControls = props =>
                 key={control.type}
                 label={control.label}
                 onAddIngredient={() => props.onAddIngredient(control.type)}
-                onRemoveIngredient={() => props.onRemoveIngredient(control.type)} />)}
+                onRemoveIngredient={() => props.onRemoveIngredient(control.type)}
+                removeIngredientDisabled={props.removeIngredientDisabledInfo[control.type]} />)}
     </div>;
 
 BuildControls.propTypes = {
     onAddIngredient: PropTypes.func.isRequired,
     onRemoveIngredient: PropTypes.func.isRequired,
-    price: PropTypes.number.isRequired
+    price: PropTypes.number.isRequired,
+    removeIngredientDisabledInfo: PropTypes.object.isRequired
 };
 
 export default BuildControls;

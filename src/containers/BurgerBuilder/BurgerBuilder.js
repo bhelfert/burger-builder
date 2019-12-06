@@ -36,13 +36,17 @@ const BurgerBuilder = () => {
         updateIngredientAmountAndTotalPrice(type, '-');
     }
 
+    const removeIngredientDisabledInfo = { ...burger.ingredients }
+    Object.keys(removeIngredientDisabledInfo).map(ingredient => removeIngredientDisabledInfo[ingredient] = removeIngredientDisabledInfo[ingredient] === 0);
+
     return (
         <>
             <Burger ingredients={burger.ingredients}/>
             <BuildControls
                 onAddIngredient={handleAddIngredient}
                 onRemoveIngredient={handleRemoveIngredient}
-                price={Math.abs(burger.totalPrice.toFixed(2))} />
+                price={Math.abs(burger.totalPrice.toFixed(2))}
+                removeIngredientDisabledInfo={removeIngredientDisabledInfo} />
         </>
     );
 }
