@@ -1,5 +1,6 @@
 import BuildControls from '../../components/BuildControls/BuildControls';
 import Burger from '../../components/Burger/Burger';
+import Modal from '../../components/Modal/Modal';
 import React, {useState} from 'react';
 
 const BurgerBuilder = () => {
@@ -37,10 +38,11 @@ const BurgerBuilder = () => {
     }
 
     const removeIngredientDisabledInfo = { ...burger.ingredients }
-    Object.keys(removeIngredientDisabledInfo).map(ingredient => removeIngredientDisabledInfo[ingredient] = removeIngredientDisabledInfo[ingredient] === 0);
+    Object.entries(removeIngredientDisabledInfo).forEach(([ingredient, amount]) => removeIngredientDisabledInfo[ingredient] = amount === 0);
 
     return (
         <>
+            <Modal />
             <Burger ingredients={burger.ingredients}/>
             <BuildControls
                 onAddIngredient={handleAddIngredient}
