@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const OrderSummary = props => {
     const ingredientSummary = Object.entries(props.ingredients).map(([ingredient, amount]) =>
             <li key={ingredient}>
-                <span style={{textTransform: 'capitalize'}}>{ingredient}</span>: {amount}
+                <span style={{textTransform: "capitalize"}}>{ingredient}</span>: {amount}
             </li>);
 
     return (
