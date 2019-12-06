@@ -1,4 +1,5 @@
 import Logo from "../../Logo/Logo";
+import NavigationItems from "../NavigationItems/NavigationItems";
 import React from 'react';
 import styles from './Toolbar.module.css';
 
@@ -8,6 +9,7 @@ const Toolbar = () =>
         <Logo />
         <div>...</div>
         <nav>
+            <NavigationItems />
         </nav>
     </header>;
 
