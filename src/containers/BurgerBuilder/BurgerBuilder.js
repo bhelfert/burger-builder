@@ -24,7 +24,7 @@ const BurgerBuilder = () => {
 
     const [checkout, setCheckout] = useState(false);
 
-    const getFormattedPrice = () => Math.abs(burger.totalPrice.toFixed(2));
+    const getFormattedPrice = () => burger.totalPrice.toFixed(2);
 
     const handleCancelCheckout = () => setCheckout(false);
 
