@@ -20,11 +20,15 @@ const BuildControls = props =>
                 onAddIngredient={() => props.onAddIngredient(control.type)}
                 onRemoveIngredient={() => props.onRemoveIngredient(control.type)}
                 removeIngredientDisabled={props.removeIngredientDisabledInfo[control.type]} />)}
-        <button className={styles.orderButton} disabled={props.price === 0}>ORDER NOW</button>
+        <button
+            className={styles.orderButton}
+            disabled={props.price === 0}
+            onClick={props.onCheckout}>ORDER NOW</button>
     </div>;
 
 BuildControls.propTypes = {
     onAddIngredient: PropTypes.func.isRequired,
+    onCheckout: PropTypes.func.isRequired,
     onRemoveIngredient: PropTypes.func.isRequired,
     price: PropTypes.number.isRequired,
     removeIngredientDisabledInfo: PropTypes.object.isRequired

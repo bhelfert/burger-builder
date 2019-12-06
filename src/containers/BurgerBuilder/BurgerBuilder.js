@@ -22,12 +22,7 @@ const BurgerBuilder = () => {
         totalPrice: 0
     });
 
-    const updateIngredientAmountAndTotalPrice = (type, amountOperator) => {
-        const updatedBurger = { ...burger };
-        updatedBurger.ingredients[type] = (amountOperator === '+') ? burger.ingredients[type] + 1 : burger.ingredients[type] - 1;
-        updatedBurger.totalPrice = (amountOperator === '+') ? burger.totalPrice + INGREDIENT_PRICES[type] : burger.totalPrice - INGREDIENT_PRICES[type];
-        setBurger(updatedBurger);
-    };
+    const [checkout, setCheckout] = useState(false);
 
     const handleAddIngredient = type => updateIngredientAmountAndTotalPrice(type, '+');
 
@@ -38,17 +33,25 @@ const BurgerBuilder = () => {
         updateIngredientAmountAndTotalPrice(type, '-');
     }
 
+    const updateIngredientAmountAndTotalPrice = (type, amountOperator) => {
+        const updatedBurger = { ...burger };
+        updatedBurger.ingredients[type] = (amountOperator === '+') ? burger.ingredients[type] + 1 : burger.ingredients[type] - 1;
+        updatedBurger.totalPrice = (amountOperator === '+') ? burger.totalPrice + INGREDIENT_PRICES[type] : burger.totalPrice - INGREDIENT_PRICES[type];
+        setBurger(updatedBurger);
+    };
+
     const removeIngredientDisabledInfo = { ...burger.ingredients }
     Object.entries(removeIngredientDisabledInfo).forEach(([ingredient, amount]) => removeIngredientDisabledInfo[ingredient] = amount === 0);
 
     return (
         <>
-            <Modal>
+            <Modal show={checkout}>
                 <OrderSummary ingredients={burger.ingredients} />
             </Modal>
             <Burger ingredients={burger.ingredients}/>
             <BuildControls
                 onAddIngredient={handleAddIngredient}
+                onCheckout={() => setCheckout(true)}
                 onRemoveIngredient={handleRemoveIngredient}
                 price={Math.abs(burger.totalPrice.toFixed(2))}
                 removeIngredientDisabledInfo={removeIngredientDisabledInfo} />
