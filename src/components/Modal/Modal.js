@@ -19,6 +19,6 @@ const Modal = props =>
 Modal.propTypes = {
     onModalClosed: PropTypes.func.isRequired,
     show: PropTypes.bool.isRequired
-}
+};
 
 export default Modal;
