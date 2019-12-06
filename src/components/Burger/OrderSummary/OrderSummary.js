@@ -15,6 +15,7 @@ const OrderSummary = props => {
             <ul>
                 {ingredientSummary}
             </ul>
+            <p><strong>Total Price: {props.price}</strong></p>
             <p>Continue to checkout?</p>
             <Button type='cancel' onClick={props.onCancelCheckout}>CANCEL</Button>
             <Button type='ok' onClick={props.onContinueCheckout}>CONTINUE</Button>
@@ -25,7 +26,8 @@ const OrderSummary = props => {
 OrderSummary.propTypes = {
     ingredients: PropTypes.object.isRequired,
     onCancelCheckout: PropTypes.func.isRequired,
-    onContinueCheckout: PropTypes.func.isRequired
+    onContinueCheckout: PropTypes.func.isRequired,
+    price: PropTypes.number.isRequired
 };
 
 export default OrderSummary;

@@ -24,6 +24,8 @@ const BurgerBuilder = () => {
 
     const [checkout, setCheckout] = useState(false);
 
+    const getFormattedPrice = () => Math.abs(burger.totalPrice.toFixed(2));
+
     const handleCancelCheckout = () => setCheckout(false);
 
     const handleAddIngredient = type => updateIngredientAmountAndTotalPrice(type, '+');
@@ -50,6 +52,7 @@ const BurgerBuilder = () => {
             <Modal show={checkout} onModalClosed={handleCancelCheckout} >
                 <OrderSummary
                     ingredients={burger.ingredients}
+                    price={getFormattedPrice()}
                     onCancelCheckout={handleCancelCheckout}
                     onContinueCheckout={() => alert('Yay! Burger incoming!!')} />
             </Modal>
@@ -58,7 +61,7 @@ const BurgerBuilder = () => {
                 onAddIngredient={handleAddIngredient}
                 onCheckout={() => setCheckout(true)}
                 onRemoveIngredient={handleRemoveIngredient}
-                price={Math.abs(burger.totalPrice.toFixed(2))}
+                price={getFormattedPrice()}
                 removeIngredientDisabledInfo={removeIngredientDisabledInfo} />
         </>
     );
