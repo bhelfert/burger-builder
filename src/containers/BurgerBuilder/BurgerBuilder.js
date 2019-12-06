@@ -42,7 +42,7 @@ const BurgerBuilder = () => {
             <BuildControls
                 onAddIngredient={handleAddIngredient}
                 onRemoveIngredient={handleRemoveIngredient}
-                price={burger.totalPrice.toFixed(2)} />
+                price={Math.abs(burger.totalPrice.toFixed(2))} />
         </>
     );
 }
