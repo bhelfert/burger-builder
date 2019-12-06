@@ -27,7 +27,7 @@ OrderSummary.propTypes = {
     ingredients: PropTypes.object.isRequired,
     onCancelCheckout: PropTypes.func.isRequired,
     onContinueCheckout: PropTypes.func.isRequired,
-    price: PropTypes.number.isRequired
+    price: PropTypes.string.isRequired
 };
 
 export default OrderSummary;

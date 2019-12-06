@@ -30,7 +30,7 @@ BuildControls.propTypes = {
     onAddIngredient: PropTypes.func.isRequired,
     onCheckout: PropTypes.func.isRequired,
     onRemoveIngredient: PropTypes.func.isRequired,
-    price: PropTypes.number.isRequired,
+    price: PropTypes.string.isRequired,
     removeIngredientDisabledInfo: PropTypes.object.isRequired
 };
 
