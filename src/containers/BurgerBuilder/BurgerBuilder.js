@@ -45,7 +45,7 @@ const BurgerBuilder = () => {
 
     return (
         <>
-            <Modal show={checkout}>
+            <Modal show={checkout} onModalClosed={() => setCheckout(false)} >
                 <OrderSummary ingredients={burger.ingredients} />
             </Modal>
             <Burger ingredients={burger.ingredients}/>
