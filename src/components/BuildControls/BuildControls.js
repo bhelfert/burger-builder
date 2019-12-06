@@ -20,6 +20,7 @@ const BuildControls = props =>
                 onAddIngredient={() => props.onAddIngredient(control.type)}
                 onRemoveIngredient={() => props.onRemoveIngredient(control.type)}
                 removeIngredientDisabled={props.removeIngredientDisabledInfo[control.type]} />)}
+        <button className={styles.orderButton} disabled={props.price === 0}>ORDER NOW</button>
     </div>;
 
 BuildControls.propTypes = {
