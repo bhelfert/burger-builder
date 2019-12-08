@@ -22,7 +22,7 @@ const BuildControls = props =>
                 removeIngredientDisabled={props.removeIngredientDisabledInfo[control.type]} />)}
         <button
             className={styles.orderButton}
-            disabled={props.price === 0}
+            disabled={Number.parseFloat(props.price) === 0}
             onClick={props.onCheckout}>ORDER NOW</button>
     </div>;
 
