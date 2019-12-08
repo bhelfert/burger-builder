@@ -5,7 +5,7 @@ import styles from './Modal.module.css';
 
 const Modal = props =>
     <>
-        <Backdrop show={props.show} onClick={props.onModalClosed} />
+        <Backdrop show={props.show} onClick={props.onModalClosed}/>
         <div
             className={styles.modal}
             style={{
@@ -16,9 +16,11 @@ const Modal = props =>
         </div>
     </>;
 
+const areEqual = (prevProps, nextProps) => nextProps.show === prevProps.show;
+
 Modal.propTypes = {
     onModalClosed: PropTypes.func.isRequired,
     show: PropTypes.bool.isRequired
 };
 
-export default Modal;
+export default React.memo(Modal, areEqual);
