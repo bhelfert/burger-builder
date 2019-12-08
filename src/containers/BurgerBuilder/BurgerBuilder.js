@@ -1,7 +1,8 @@
+import axios from '../../axios-orders';
 import BuildControls from '../../components/BuildControls/BuildControls';
 import Burger from '../../components/Burger/Burger';
 import Modal from '../../components/Modal/Modal';
-import React, {useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 
 const BurgerBuilder = () => {
@@ -24,11 +25,28 @@ const BurgerBuilder = () => {
 
     const [checkout, setCheckout] = useState(false);
 
+    useEffect(() => {
+        const fetchIngredients = async () => {
+            const result = await axios.get('ingredients.json');
+            const updatedBurger = { ...burger };
+            updatedBurger.ingredients = result.data;
+            setBurger(updatedBurger);
+        };
+
+        fetchIngredients();
+    // eslint-disable-next-line
+    }, []);
+
     const getFormattedPrice = () => burger.totalPrice.toFixed(2);
+
+    const handleAddIngredient = type => updateIngredientAmountAndTotalPrice(type, '+');
 
     const handleCancelCheckout = () => setCheckout(false);
 
-    const handleAddIngredient = type => updateIngredientAmountAndTotalPrice(type, '+');
+    const handleContinueCheckout = () =>
+        axios.post('/orders.json', { ...burger })
+            .then(response => console.log(response))
+            .catch(error => console.log(error));
 
     const handleRemoveIngredient = type => {
         if (burger.ingredients[type] === 0) {
@@ -54,7 +72,7 @@ const BurgerBuilder = () => {
                     ingredients={burger.ingredients}
                     price={getFormattedPrice()}
                     onCancelCheckout={handleCancelCheckout}
-                    onContinueCheckout={() => alert('Yay! Burger incoming!!')} />
+                    onContinueCheckout={handleContinueCheckout} />
             </Modal>
             <Burger ingredients={burger.ingredients}/>
             <BuildControls
