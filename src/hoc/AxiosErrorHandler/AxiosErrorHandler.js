@@ -12,7 +12,10 @@ const AxiosErrorHandler = props => {
         return request;
     });
 
-    const responseInterceptor = props.axios.interceptors.response.use(response => response, err => setError(err));
+    const responseInterceptor = props.axios.interceptors.response.use(response => response, err => {
+        setError(err);
+        return Promise.reject(err);
+    });
 
     useEffect(() => () => {
         props.axios.interceptors.request.eject(requestInterceptor);

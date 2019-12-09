@@ -27,14 +27,14 @@ const BurgerBuilder = () => {
     useEffect(() => {
         const fetchIngredients = async () => {
             updateLoading(true);
-            const result = await axios('ingredients.json');
-            let stateToMerge = { loading: false };
-            if (result == null) { // bug?: try-catch is not working around "await axios"
-                console.log('could not fetch burger ingredients');
-                stateToMerge.error = true;
-            }
-            else {
+            const stateToMerge = { loading: false };
+            try {
+                const result = await axios('ingredients.json');
                 stateToMerge.ingredients = result.data;
+            }
+            catch (error) {
+                console.error('could not fetch burger ingredients:', error.message);
+                stateToMerge.error = true;
             }
             updateBurger(stateToMerge);
         };
@@ -52,12 +52,12 @@ const BurgerBuilder = () => {
     const handleContinueCheckout = () => {
         const postOrder = async () => {
             updateLoading(true);
-            const result = await axios.post('/orders.json', { ...burger.ingredients });
-            if (result == null) { // bug?: try-catch is not working around "await axios"
-                console.log('could not post order');
+            try {
+                const result = await axios.post('/orders.json', { ...burger.ingredients });
+                console.info('posted order:', burger.ingredients, ' -- result:', result);
             }
-            else {
-                console.log('posted order:', burger.ingredients, ' -- result:', result);
+            catch (error) {
+                console.error('could not post order:', error.message);
             }
             updateBurger({ loading: false, checkout: false });
         };
