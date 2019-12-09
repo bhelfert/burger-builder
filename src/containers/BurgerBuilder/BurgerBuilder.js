@@ -91,32 +91,27 @@ const BurgerBuilder = () => {
     const removeIngredientDisabledInfo = { ...burger.ingredients };
     Object.entries(removeIngredientDisabledInfo).forEach(([ingredient, amount]) => removeIngredientDisabledInfo[ingredient] = amount === 0);
 
-    let orderSummaryOrSpinnerOrNull = null;
-    let burgerAndControlsOrSpinner = burger.error ? <p>Burger ingredients cannot be loaded!</p> : <Spinner />;
+    const orderSummaryOrSpinnerOrNull = burger.loading
+        ? <Spinner />
+        : burger.ingredients
+            ? <OrderSummary
+                  ingredients={burger.ingredients}
+                  onCancelCheckout={handleCancelCheckout}
+                  onContinueCheckout={handleContinueCheckout}
+                  price={getFormattedPrice()} />
+            : null;
 
-    if (burger.ingredients) {
-        orderSummaryOrSpinnerOrNull =
-            <OrderSummary
-                ingredients={burger.ingredients}
-                price={getFormattedPrice()}
-                onCancelCheckout={handleCancelCheckout}
-                onContinueCheckout={handleContinueCheckout}/>;
-
-        burgerAndControlsOrSpinner =
-            <>
-                <Burger ingredients={burger.ingredients}/>
-                <BuildControls
-                    onAddIngredient={handleAddIngredient}
-                    onCheckout={() => updateCheckout(true)}
-                    onRemoveIngredient={handleRemoveIngredient}
-                    price={getFormattedPrice()}
-                    removeIngredientDisabledInfo={removeIngredientDisabledInfo}/>
-            </>;
-    }
-
-    if (burger.loading) {
-        orderSummaryOrSpinnerOrNull = <Spinner />;
-    }
+    const burgerAndControlsOrSpinner = burger.ingredients
+        ? <>
+              <Burger ingredients={burger.ingredients}/>
+              <BuildControls
+                  onAddIngredient={handleAddIngredient}
+                  onCheckout={() => updateCheckout(true)}
+                  onRemoveIngredient={handleRemoveIngredient}
+                  price={getFormattedPrice()}
+                  removeIngredientDisabledInfo={removeIngredientDisabledInfo} />
+        </>
+        : burger.error ? <p>Burger ingredients cannot be loaded!</p> : <Spinner />;
 
     return (
         <AxiosErrorHandler axios={axios}>
