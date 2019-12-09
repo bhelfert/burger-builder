@@ -16,7 +16,7 @@ const Modal = props =>
         </div>
     </>;
 
-const areEqual = (prevProps, nextProps) => nextProps.show === prevProps.show;
+const areEqual = (prevProps, nextProps) => (nextProps.show === prevProps.show) && (nextProps.children === prevProps.children);
 
 Modal.propTypes = {
     onModalClosed: PropTypes.func.isRequired,

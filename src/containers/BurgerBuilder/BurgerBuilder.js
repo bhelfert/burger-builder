@@ -2,8 +2,9 @@ import axios from '../../axios-orders';
 import BuildControls from '../../components/BuildControls/BuildControls';
 import Burger from '../../components/Burger/Burger';
 import Modal from '../../components/Modal/Modal';
-import React, { useEffect, useState } from 'react';
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
+import React, { useEffect, useState } from 'react';
+import Spinner from "../../components/Spinner/Spinner";
 
 const BurgerBuilder = () => {
     const INGREDIENT_PRICES = {
@@ -14,23 +15,28 @@ const BurgerBuilder = () => {
     };
 
     const [burger, setBurger] = useState({
-        ingredients: {
-            salad: 0,
-            bacon: 0,
-            cheese: 0,
-            meat: 0
-        },
+        checkout: false,
+        ingredients: null,
+        loading: true,
         totalPrice: 0
     });
 
-    const [checkout, setCheckout] = useState(false);
-
+    // when componenDidMount():
     useEffect(() => {
         const fetchIngredients = async () => {
-            const result = await axios.get('ingredients.json');
-            const updatedBurger = { ...burger };
-            updatedBurger.ingredients = result.data;
-            setBurger(updatedBurger);
+            updateLoading(true);
+            let result;
+            try {
+                result = await axios.get('ingredients.json');
+            }
+            catch (error) {
+                console.log(error);
+            }
+            let stateToMerge = { loading: false };
+            if (result != null) {
+                stateToMerge.ingredients = result.data;
+            }
+            updateBurger(stateToMerge);
         };
 
         fetchIngredients();
@@ -41,19 +47,39 @@ const BurgerBuilder = () => {
 
     const handleAddIngredient = type => updateIngredientAmountAndTotalPrice(type, '+');
 
-    const handleCancelCheckout = () => setCheckout(false);
+    const handleCancelCheckout = () => updateCheckout(false);
 
-    const handleContinueCheckout = () =>
-        axios.post('/orders.json', { ...burger })
-            .then(response => console.log(response))
-            .catch(error => console.log(error));
+    const handleContinueCheckout = () => {
+        const postOrder = async () => {
+            updateLoading(true);
+            try {
+                const result = await axios.post('/orders.json', { ...burger });
+                console.log(result);
+            }
+            catch (error) {
+                console.log(error);
+            }
+            updateBurger({ loading: false, checkout: false });
+        };
+        postOrder();
+    };
 
     const handleRemoveIngredient = type => {
         if (burger.ingredients[type] === 0) {
             return;
         }
         updateIngredientAmountAndTotalPrice(type, '-');
-    }
+    };
+
+    const updateBurger = stateToMerge => {
+        const updatedBurger = { ...burger };
+        Object.entries(stateToMerge).forEach(([key, value]) => updatedBurger[key] = value);
+        setBurger(updatedBurger);
+    };
+
+    const updateCheckout = checkout => updateBurger({ checkout: checkout });
+
+    const updateLoading = loading => updateBurger({ loading: loading });
 
     const updateIngredientAmountAndTotalPrice = (type, amountOperator) => {
         const updatedBurger = { ...burger };
@@ -65,22 +91,32 @@ const BurgerBuilder = () => {
     const removeIngredientDisabledInfo = { ...burger.ingredients }
     Object.entries(removeIngredientDisabledInfo).forEach(([ingredient, amount]) => removeIngredientDisabledInfo[ingredient] = amount === 0);
 
-    return (
-        <>
-            <Modal show={checkout} onModalClosed={handleCancelCheckout} >
-                <OrderSummary
-                    ingredients={burger.ingredients}
-                    price={getFormattedPrice()}
-                    onCancelCheckout={handleCancelCheckout}
-                    onContinueCheckout={handleContinueCheckout} />
-            </Modal>
+    let orderSummaryOrSpinnerOrNull = burger.loading
+        ? burger.checkout ? <Spinner /> : null
+        : <OrderSummary
+              ingredients={burger.ingredients}
+              price={getFormattedPrice()}
+              onCancelCheckout={handleCancelCheckout}
+              onContinueCheckout={handleContinueCheckout} />;
+
+    let burgerAndControlsOrSpinner = burger.loading && !burger.checkout
+        ? <Spinner />
+        : <>
             <Burger ingredients={burger.ingredients}/>
             <BuildControls
-                onAddIngredient={handleAddIngredient}
-                onCheckout={() => setCheckout(true)}
+                onAddIngredient = {handleAddIngredient}
+                onCheckout={() => updateCheckout(true)}
                 onRemoveIngredient={handleRemoveIngredient}
                 price={getFormattedPrice()}
                 removeIngredientDisabledInfo={removeIngredientDisabledInfo} />
+        </>;
+
+    return (
+        <>
+            <Modal show={burger.checkout} onModalClosed={handleCancelCheckout} >
+                {orderSummaryOrSpinnerOrNull}
+            </Modal>
+            {burgerAndControlsOrSpinner}
         </>
     );
 }
