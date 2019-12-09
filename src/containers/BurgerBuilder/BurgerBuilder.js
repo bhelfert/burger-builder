@@ -1,9 +1,10 @@
 import axios from '../../axios-orders';
+import AxiosErrorHandler from "../../hoc/AxiosErrorHandler/AxiosErrorHandler";
 import BuildControls from '../../components/BuildControls/BuildControls';
 import Burger from '../../components/Burger/Burger';
 import Modal from '../../components/Modal/Modal';
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Spinner from "../../components/Spinner/Spinner";
 
 const BurgerBuilder = () => {
@@ -16,24 +17,23 @@ const BurgerBuilder = () => {
 
     const [burger, setBurger] = useState({
         checkout: false,
+        error: false,
         ingredients: null,
-        loading: true,
+        loading: false,
         totalPrice: 0
     });
 
-    // when componenDidMount():
+    // when componentDidMount():
     useEffect(() => {
         const fetchIngredients = async () => {
             updateLoading(true);
-            let result;
-            try {
-                result = await axios.get('ingredients.json');
-            }
-            catch (error) {
-                console.log(error);
-            }
+            const result = await axios('ingredients.json');
             let stateToMerge = { loading: false };
-            if (result != null) {
+            if (result == null) { // bug?: try-catch is not working around "await axios"
+                console.log('could not fetch burger ingredients');
+                stateToMerge.error = true;
+            }
+            else {
                 stateToMerge.ingredients = result.data;
             }
             updateBurger(stateToMerge);
@@ -52,12 +52,12 @@ const BurgerBuilder = () => {
     const handleContinueCheckout = () => {
         const postOrder = async () => {
             updateLoading(true);
-            try {
-                const result = await axios.post('/orders.json', { ...burger });
-                console.log(result);
+            const result = await axios.post('/orders.json', { ...burger.ingredients });
+            if (result == null) { // bug?: try-catch is not working around "await axios"
+                console.log('could not post order');
             }
-            catch (error) {
-                console.log(error);
+            else {
+                console.log('posted order:', burger.ingredients, ' -- result:', result);
             }
             updateBurger({ loading: false, checkout: false });
         };
@@ -77,9 +77,9 @@ const BurgerBuilder = () => {
         setBurger(updatedBurger);
     };
 
-    const updateCheckout = checkout => updateBurger({ checkout: checkout });
+    const updateCheckout = isCheckout => updateBurger({ checkout: isCheckout });
 
-    const updateLoading = loading => updateBurger({ loading: loading });
+    const updateLoading = isLoading => updateBurger({ loading: isLoading });
 
     const updateIngredientAmountAndTotalPrice = (type, amountOperator) => {
         const updatedBurger = { ...burger };
@@ -88,37 +88,44 @@ const BurgerBuilder = () => {
         setBurger(updatedBurger);
     };
 
-    const removeIngredientDisabledInfo = { ...burger.ingredients }
+    const removeIngredientDisabledInfo = { ...burger.ingredients };
     Object.entries(removeIngredientDisabledInfo).forEach(([ingredient, amount]) => removeIngredientDisabledInfo[ingredient] = amount === 0);
 
-    let orderSummaryOrSpinnerOrNull = burger.loading
-        ? burger.checkout ? <Spinner /> : null
-        : <OrderSummary
-              ingredients={burger.ingredients}
-              price={getFormattedPrice()}
-              onCancelCheckout={handleCancelCheckout}
-              onContinueCheckout={handleContinueCheckout} />;
+    let orderSummaryOrSpinnerOrNull = null;
+    let burgerAndControlsOrSpinner = burger.error ? <p>Burger ingredients cannot be loaded!</p> : <Spinner />;
 
-    let burgerAndControlsOrSpinner = burger.loading && !burger.checkout
-        ? <Spinner />
-        : <>
-            <Burger ingredients={burger.ingredients}/>
-            <BuildControls
-                onAddIngredient = {handleAddIngredient}
-                onCheckout={() => updateCheckout(true)}
-                onRemoveIngredient={handleRemoveIngredient}
+    if (burger.ingredients) {
+        orderSummaryOrSpinnerOrNull =
+            <OrderSummary
+                ingredients={burger.ingredients}
                 price={getFormattedPrice()}
-                removeIngredientDisabledInfo={removeIngredientDisabledInfo} />
-        </>;
+                onCancelCheckout={handleCancelCheckout}
+                onContinueCheckout={handleContinueCheckout}/>;
+
+        burgerAndControlsOrSpinner =
+            <>
+                <Burger ingredients={burger.ingredients}/>
+                <BuildControls
+                    onAddIngredient={handleAddIngredient}
+                    onCheckout={() => updateCheckout(true)}
+                    onRemoveIngredient={handleRemoveIngredient}
+                    price={getFormattedPrice()}
+                    removeIngredientDisabledInfo={removeIngredientDisabledInfo}/>
+            </>;
+    };
+
+    if (burger.loading) {
+        orderSummaryOrSpinnerOrNull = <Spinner />;
+    }
 
     return (
-        <>
-            <Modal show={burger.checkout} onModalClosed={handleCancelCheckout} >
+        <AxiosErrorHandler axios={axios}>
+            <Modal show={burger.checkout} onModalClosed={handleCancelCheckout}>
                 {orderSummaryOrSpinnerOrNull}
             </Modal>
             {burgerAndControlsOrSpinner}
-        </>
+        </AxiosErrorHandler>
     );
-}
+};
 
 export default BurgerBuilder;
