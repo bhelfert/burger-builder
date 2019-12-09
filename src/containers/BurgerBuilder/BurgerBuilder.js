@@ -112,7 +112,7 @@ const BurgerBuilder = () => {
                     price={getFormattedPrice()}
                     removeIngredientDisabledInfo={removeIngredientDisabledInfo}/>
             </>;
-    };
+    }
 
     if (burger.loading) {
         orderSummaryOrSpinnerOrNull = <Spinner />;
