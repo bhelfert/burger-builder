@@ -1,4 +1,4 @@
-import Button from "../../Button/Button";
+import Button from "../../UI/Button/Button";
 import React from 'react';
 import PropTypes from 'prop-types';
 

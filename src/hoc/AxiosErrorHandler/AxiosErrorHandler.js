@@ -1,4 +1,4 @@
-import Modal from "../../components/Modal/Modal";
+import Modal from "../../components/UI/Modal/Modal";
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 
