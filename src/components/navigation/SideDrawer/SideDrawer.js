@@ -1,4 +1,4 @@
-import Backdrop from "../../UI/Backdrop/Backdrop";
+import Backdrop from "../../ui/Backdrop/Backdrop";
 import Logo from "../../Logo/Logo";
 import NavigationItems from "../NavigationItems/NavigationItems";
 import PropTypes from 'prop-types';
