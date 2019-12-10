@@ -1,7 +1,6 @@
 import CheckoutSummary from "../../components/order/CheckoutSummary/CheckoutSummary";
-import ContactData from "./ContactData/ContactData";
 import React, { useEffect, useState } from 'react';
-import { Route, useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 const Checkout = () => {
 
@@ -10,12 +9,11 @@ const Checkout = () => {
     const history = useHistory();
     const location = useLocation();
 
-    // when componentDidMount():
     useEffect(() => {
-        const ingredients = {};
+        const passedIngredients = {};
         const queryParams = new URLSearchParams(location.search);
-        queryParams.forEach((amount, ingredient) => ingredients[ingredient] = amount);
-        setIngredients(ingredients);
+        queryParams.forEach((amount, ingredient) => passedIngredients[ingredient] = Number.parseInt(amount));
+        setIngredients(passedIngredients);
     }, [location.search]);
 
     const handleCancelCheckout = () => history.goBack();
