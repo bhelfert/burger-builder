@@ -53,21 +53,6 @@ const BurgerBuilder = () => {
     const handleCancelCheckout = () => updateCheckout(false);
 
     const handleContinueCheckout = () => {
-        /*
-        const postOrder = async () => {
-            updateLoading(true);
-            try {
-                const result = await axios.post('/orders.json', { ...burger.ingredients });
-                console.info('posted order:', burger.ingredients, ' -- result:', result);
-            }
-            catch (error) {
-                console.error('could not post order:', error.message);
-            }
-            updateBurger({ loading: false, checkout: false });
-        };
-        postOrder();
-        */
-
         const queryParams = [];
         Object.entries(burger.ingredients).forEach(([ingredient, amount]) =>
             queryParams.push(encodeURIComponent(ingredient) + '=' + encodeURIComponent(amount)));
