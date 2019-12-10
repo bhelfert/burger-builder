@@ -6,8 +6,9 @@ import Modal from '../../components/ui/Modal/Modal';
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import React, {useEffect, useState} from 'react';
 import Spinner from "../../components/ui/Spinner/Spinner";
+import { useHistory } from 'react-router-dom';
 
-const BurgerBuilder = props => {
+const BurgerBuilder = () => {
     const INGREDIENT_PRICES = {
       salad: 0.5,
       bacon: 0.7,
@@ -22,6 +23,8 @@ const BurgerBuilder = props => {
         loading: false,
         totalPrice: 0
     });
+
+    const history = useHistory();
 
     // when componentDidMount():
     useEffect(() => {
@@ -69,7 +72,7 @@ const BurgerBuilder = props => {
         Object.entries(burger.ingredients).forEach(([ingredient, amount]) =>
             queryParams.push(encodeURIComponent(ingredient) + '=' + encodeURIComponent(amount)));
         const queryString  = queryParams.join('&');
-        props.history.push({
+        history.push({
             pathname: '/checkout',
             search: '?' + queryString
         });

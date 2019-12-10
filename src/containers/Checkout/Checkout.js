@@ -1,21 +1,26 @@
 import CheckoutSummary from "../../components/order/CheckoutSummary/CheckoutSummary";
+import ContactData from "./ContactData/ContactData";
 import React, { useEffect, useState } from 'react';
+import { Route, useHistory, useLocation } from 'react-router-dom';
 
-const Checkout = props => {
+const Checkout = () => {
 
     const [ingredients, setIngredients] = useState({});
+
+    const history = useHistory();
+    const location = useLocation();
 
     // when componentDidMount():
     useEffect(() => {
         const ingredients = {};
-        const queryParams = new URLSearchParams(props.location.search);
+        const queryParams = new URLSearchParams(location.search);
         queryParams.forEach((amount, ingredient) => ingredients[ingredient] = amount);
         setIngredients(ingredients);
-    }, [props.location.search]);
+    }, [location.search]);
 
-    const handleCancelCheckout = () => props.history.goBack();
+    const handleCancelCheckout = () => history.goBack();
 
-    const handleContinueCheckout = () => props.history.replace('/checkout/contact-data');
+    const handleContinueCheckout = () => history.replace('/checkout/contact-data');
 
     return (
         <div>
