@@ -1,6 +1,7 @@
 import CheckoutSummary from "../../components/order/CheckoutSummary/CheckoutSummary";
+import ContactData from "./ContactData/ContactData";
 import React, { useEffect, useState } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { Route, useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 
 const Checkout = () => {
 
@@ -8,6 +9,7 @@ const Checkout = () => {
 
     const history = useHistory();
     const location = useLocation();
+    const match = useRouteMatch();
 
     useEffect(() => {
         const passedIngredients = {};
@@ -26,6 +28,9 @@ const Checkout = () => {
                 ingredients={ingredients}
                 onCancelCheckout={handleCancelCheckout}
                 onContinueCheckout={handleContinueCheckout} />
+            <Route path={match.path + '/contact-data'}>
+                <ContactData />
+            </Route>
         </div>
     );
 };
