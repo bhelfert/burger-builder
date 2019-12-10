@@ -7,7 +7,7 @@ import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import React, {useEffect, useState} from 'react';
 import Spinner from "../../components/ui/Spinner/Spinner";
 
-const BurgerBuilder = () => {
+const BurgerBuilder = props => {
     const INGREDIENT_PRICES = {
       salad: 0.5,
       bacon: 0.7,
@@ -50,6 +50,7 @@ const BurgerBuilder = () => {
     const handleCancelCheckout = () => updateCheckout(false);
 
     const handleContinueCheckout = () => {
+        /*
         const postOrder = async () => {
             updateLoading(true);
             try {
@@ -62,6 +63,16 @@ const BurgerBuilder = () => {
             updateBurger({ loading: false, checkout: false });
         };
         postOrder();
+        */
+
+        const queryParams = [];
+        Object.entries(burger.ingredients).forEach(([ingredient, amount]) =>
+            queryParams.push(encodeURIComponent(ingredient) + '=' + encodeURIComponent(amount)));
+        const queryString  = queryParams.join('&');
+        props.history.push({
+            pathname: '/checkout',
+            search: '?' + queryString
+        });
     };
 
     const handleRemoveIngredient = type => {
