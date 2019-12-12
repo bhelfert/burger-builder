@@ -1,4 +1,4 @@
-import Backdrop from "../Backdrop/Backdrop";
+import Backdrop from '../Backdrop/Backdrop';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styles from './Modal.module.css';

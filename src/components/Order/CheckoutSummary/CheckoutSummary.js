@@ -1,5 +1,5 @@
-import Button from "../../ui/Button/Button";
-import Burger from "../../Burger/Burger";
+import Burger from '../../Burger/Burger';
+import Button from '../../ui/Button/Button';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styles from './CheckoutSummary.module.css';

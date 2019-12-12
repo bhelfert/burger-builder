@@ -1,11 +1,11 @@
 import axios from '../../axios-orders';
-import AxiosErrorHandler from "../../hoc/AxiosErrorHandler/AxiosErrorHandler";
+import AxiosErrorHandler from '../../hoc/AxiosErrorHandler/AxiosErrorHandler';
 import BuildControls from '../../components/BuildControls/BuildControls';
 import Burger from '../../components/Burger/Burger';
 import Modal from '../../components/ui/Modal/Modal';
-import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
+import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import React, {useEffect, useState} from 'react';
-import Spinner from "../../components/ui/Spinner/Spinner";
+import Spinner from '../../components/ui/Spinner/Spinner';
 import { useHistory } from 'react-router-dom';
 
 const BurgerBuilder = () => {

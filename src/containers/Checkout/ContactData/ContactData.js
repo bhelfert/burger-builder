@@ -1,9 +1,9 @@
-import axios from "../../../axios-orders";
-import Button from "../../../components/ui/Button/Button";
+import axios from '../../../axios-orders';
+import Button from '../../../components/ui/Button/Button';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import Spinner from '../../../components/ui/Spinner/Spinner';
 import styles from './ContactData.module.css';
-import Spinner from "../../../components/ui/Spinner/Spinner";
 import { useHistory } from 'react-router-dom';
 
 const ContactData = props => {
