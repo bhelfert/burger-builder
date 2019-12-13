@@ -30,7 +30,7 @@ const BurgerBuilder = () => {
     useEffect(() => {
         const fetchIngredients = async () => {
             updateLoading(true);
-            const stateToMerge = { loading: false };
+            const stateToMerge = { error: false, loading: false };
             try {
                 const result = await axios('ingredients.json');
                 stateToMerge.ingredients = result.data;
@@ -56,6 +56,7 @@ const BurgerBuilder = () => {
         const queryParams = [];
         Object.entries(burger.ingredients).forEach(([ingredient, amount]) =>
             queryParams.push(encodeURIComponent(ingredient) + '=' + encodeURIComponent(amount)));
+        queryParams.push(`price=${burger.totalPrice}`);
         const queryString  = queryParams.join('&');
         history.push({
             pathname: '/checkout',

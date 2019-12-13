@@ -19,10 +19,13 @@ const ContactData = props => {
         const postOrder = async () => {
             updateState({ loading: true });
             try {
-                const ingredients = { ...props.ingredients };
-                const result = await axios.post('/orders.json', ingredients);
+                const order = {
+                    ingredients: props.ingredients,
+                    price: props.price
+                };
+                const result = await axios.post('/orders.json', order);
                 updateState({ loading: false });
-                console.info('posted order:', ingredients, ' -- result:', result);
+                console.info('posted order:', order, ' -- result:', result);
                 history.push('/');
             }
             catch (error) {
@@ -56,10 +59,11 @@ const ContactData = props => {
             {formOrSpinner}
         </div>
     );
-}
+};
 
 ContactData.propTypes = {
-    ingredients: PropTypes.object.isRequired
-}
+    ingredients: PropTypes.object.isRequired,
+    price: PropTypes.string.isRequired
+};
 
 export default ContactData;

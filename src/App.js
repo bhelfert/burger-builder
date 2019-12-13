@@ -1,8 +1,9 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
+import Checkout from './containers/Checkout/Checkout';
 import Layout from './hoc/Layout/Layout';
+import Orders from './containers/Orders/Orders';
 import React from 'react';
-import Checkout from "./containers/Checkout/Checkout";
 
 function App() {
     return (
@@ -15,6 +16,9 @@ function App() {
                         </Route>
                         <Route path='/checkout'>
                             <Checkout />
+                        </Route>
+                        <Route path='/orders'>
+                            <Orders />
                         </Route>
                     </Switch>
                 </Layout>
