@@ -10,7 +10,7 @@ const Button = props =>
     </button>;
 
 Button.propTypes = {
-    onClick: PropTypes.func.isRequired,
+    onClick: PropTypes.func,
     type: PropTypes.oneOf(['cancel', 'ok']).isRequired
 };
 

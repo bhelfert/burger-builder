@@ -1,5 +1,6 @@
 import axios from '../../../axios-orders';
 import Button from '../../../components/ui/Button/Button';
+import Input from '../../../components/ui/Input/Input';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import Spinner from '../../../components/ui/Spinner/Spinner';
@@ -7,50 +8,60 @@ import styles from './ContactData.module.css';
 import { useHistory } from 'react-router-dom';
 
 const ContactData = props => {
-    const [state, setState] = useState({
-        loading: false
+    const [contactData, setContactData] = useState({
+        name: '',
+        email: '',
+        street: '',
+        zipCode: '',
+        city: ''
     });
+
+    const [loading, setLoading] = useState(false);
 
     const history = useHistory();
 
-    const handleClick = event => {
+    const handleInputChange = event => {
+        const name = event.target.getAttribute('name');
+        const value = event.target.value;
+        setContactData(prevContactData => ({
+            ...prevContactData,
+            [name]: value
+        }));
+    };
+
+    const handleSubmit = event => {
         event.preventDefault();
 
         const postOrder = async () => {
-            updateState({ loading: true });
+            setLoading(true);
             try {
                 const order = {
+                    contactData: contactData,
                     ingredients: props.ingredients,
                     price: props.price
                 };
                 const result = await axios.post('/orders.json', order);
-                updateState({ loading: false });
+                setLoading(false);
                 console.info('posted order:', order, ' -- result:', result);
                 history.push('/');
             }
             catch (error) {
                 console.error('could not post order:', error.message);
-                updateState({ loading: false });
+                setLoading(false);
             }
         };
         postOrder();
     };
 
-    const updateState = stateToMerge => {
-        const updatedState = { ...state };
-        Object.entries(stateToMerge).forEach(([key, value]) => updatedState[key] = value);
-        setState(updatedState);
-    };
-
-    const formOrSpinner = state.loading
+    const formOrSpinner = loading
         ? <Spinner />
-        : <form>
-              <input className={styles.input} type="text" name="name" placeholder="Your name" />
-              <input className={styles.input} type="email" name="email" placeholder="Your email" />
-              <input className={styles.input} type="text" name="street" placeholder="Street" />
-              <input className={styles.input} type="text" name="zipCode" placeholder="Zip code" />
-              <input className={styles.input} type="text" name="city" placeholder="City" />
-              <Button onClick={handleClick} type='ok'>ORDER</Button>
+        : <form onSubmit={handleSubmit}>
+              <Input label='Name'     type='text'  name='name'    value={contactData.name}    placeholder='Your name'     onChange={handleInputChange} required />
+              <Input label='Email'    type='email' name='email'   value={contactData.email}   placeholder='Your email'    onChange={handleInputChange} required />
+              <Input label='Street'   type='text'  name='street'  value={contactData.street}  placeholder='Your street'   onChange={handleInputChange} required />
+              <Input label='Zip code' type='text'  name='zipCode' value={contactData.zipCode} placeholder='Your zip code' onChange={handleInputChange} required minLength='4' maxLength='5' />
+              <Input label='City'     type='text'  name='city'    value={contactData.city}    placeholder='Your city'     onChange={handleInputChange} required />
+              <Button type='ok'>ORDER</Button>
         </form>;
 
     return (
