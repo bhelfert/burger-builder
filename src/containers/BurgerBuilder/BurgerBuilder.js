@@ -72,9 +72,10 @@ const BurgerBuilder = () => {
     };
 
     const updateBurger = stateToMerge => {
-        const updatedBurger = { ...burger };
-        Object.entries(stateToMerge).forEach(([key, value]) => updatedBurger[key] = value);
-        setBurger(updatedBurger);
+        setBurger(prevBurger => ({
+            ...prevBurger,
+            ...stateToMerge
+        }));
     };
 
     const updateCheckout = isCheckout => updateBurger({ checkout: isCheckout });

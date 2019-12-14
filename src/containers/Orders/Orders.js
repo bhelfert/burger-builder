@@ -38,9 +38,10 @@ const Orders = () => {
     }, []);
 
     const updateState = stateToMerge => {
-        const updatedState = { ...state };
-        Object.entries(stateToMerge).forEach(([key, value]) => updatedState[key] = value);
-        setState(updatedState);
+        setState(prevState => ({
+            ...prevState,
+            ...stateToMerge
+        }));
     };
 
     const ordersOrSpinner = state.orders
