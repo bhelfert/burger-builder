@@ -94,13 +94,11 @@ const BurgerBuilder = () => {
 
     const orderSummaryOrSpinnerOrNull = burger.loading
         ? <Spinner />
-        : burger.ingredients
-            ? <OrderSummary
-                  ingredients={burger.ingredients}
-                  onCancelCheckout={handleCancelCheckout}
-                  onContinueCheckout={handleContinueCheckout}
-                  price={getFormattedPrice()} />
-            : null;
+        : burger.ingredients && <OrderSummary
+                                    ingredients={burger.ingredients}
+                                    onCancelCheckout={handleCancelCheckout}
+                                    onContinueCheckout={handleContinueCheckout}
+                                    price={getFormattedPrice()} />;
 
     const burgerAndControlsOrSpinner = burger.ingredients
         ? <>

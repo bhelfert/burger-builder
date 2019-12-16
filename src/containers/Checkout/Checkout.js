@@ -36,8 +36,8 @@ const Checkout = () => {
 
     const handleContinueCheckout = () => history.replace('/checkout/contact-data');
 
-    const checkoutSummaryAndContactDataOrNull = state.ingredients
-        ? <div>
+    const checkoutSummaryAndContactDataOrNull = state.ingredients &&
+        <div>
               <CheckoutSummary
                   ingredients={state.ingredients}
                   onCancelCheckout={handleCancelCheckout}
@@ -45,8 +45,7 @@ const Checkout = () => {
               <Route
                   path={match.path + '/contact-data'}
                   render={() => <ContactData ingredients={state.ingredients} price={state.price} />} />
-        </div>
-        : null;
+        </div>;
 
     return (
         <>
