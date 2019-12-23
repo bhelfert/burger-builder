@@ -40,7 +40,7 @@ const ContactData = props => {
                     price: props.price
                 };
                 setLoading(true);
-                const result = await axios.post(`/orders.json?auth=${props.authToken}`, order);
+                const result = await axios.post('/orders.json?auth=' + props.authToken, order);
                 setLoading(false);
                 console.info('posted order:', order, ' -- result:', result);
                 history.push('/');

@@ -18,7 +18,7 @@ const Orders = props => {
             updateState({ loading: true });
             const stateToMerge = { error: false, loading: false };
             try {
-                const result = await axios(`/orders.json?auth=${props.authToken}`);
+                const result = await axios('/orders.json?auth=' + props.authToken);
                 stateToMerge.orders = [];
                 for (let key in result.data) {
                     stateToMerge.orders.push({
