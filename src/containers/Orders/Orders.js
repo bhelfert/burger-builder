@@ -1,10 +1,11 @@
 import axios from '../../axios-orders';
 import AxiosErrorHandler from '../../hoc/AxiosErrorHandler/AxiosErrorHandler';
 import Order from '../../components/Order/Order';
+import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import Spinner from '../../components/ui/Spinner/Spinner';
 
-const Orders = () => {
+const Orders = props => {
     const [state, setState] = useState({
         error: false,
         orders: null,
@@ -17,7 +18,7 @@ const Orders = () => {
             updateState({ loading: true });
             const stateToMerge = { error: false, loading: false };
             try {
-                const result = await axios('/orders.json');
+                const result = await axios(`/orders.json?auth=${props.authToken}`);
                 stateToMerge.orders = [];
                 for (let key in result.data) {
                     stateToMerge.orders.push({
@@ -59,6 +60,10 @@ const Orders = () => {
             </div>
         </AxiosErrorHandler>
     );
+};
+
+Orders.propTypes = {
+    authToken: PropTypes.string.isRequired
 };
 
 export default Orders;

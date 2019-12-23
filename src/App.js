@@ -1,11 +1,14 @@
+import Auth from './containers/Auth/Auth';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
 import Checkout from './containers/Checkout/Checkout';
 import Layout from './hoc/Layout/Layout';
 import Orders from './containers/Orders/Orders';
-import React from 'react';
+import React, { useState } from 'react';
 
-function App() {
+const App = () => {
+    const [authToken, setAuthToken] = useState('');
+
     return (
         <Router>
             <div>
@@ -14,17 +17,20 @@ function App() {
                         <Route exact path='/'>
                             <BurgerBuilder />
                         </Route>
+                        <Route path='/auth'>
+                            <Auth onTokenChange={setAuthToken} />
+                        </Route>
                         <Route path='/checkout'>
-                            <Checkout />
+                            <Checkout authToken={authToken} />
                         </Route>
                         <Route path='/orders'>
-                            <Orders />
+                            <Orders authToken={authToken} />
                         </Route>
                     </Switch>
                 </Layout>
             </div>
         </Router>
     );
-}
+};
 
 export default App;

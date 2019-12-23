@@ -1,9 +1,10 @@
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 import ContactData from './ContactData/ContactData';
+import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { Route, useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 
-const Checkout = () => {
+const Checkout = props => {
     const PRICE_PARAM = 'price';
 
     const [state, setState] = useState({
@@ -44,7 +45,7 @@ const Checkout = () => {
                   onContinueCheckout={handleContinueCheckout} />
               <Route
                   path={match.path + '/contact-data'}
-                  render={() => <ContactData ingredients={state.ingredients} price={state.price} />} />
+                  render={() => <ContactData authToken={props.authToken} ingredients={state.ingredients} price={state.price} />} />
         </div>;
 
     return (
@@ -53,5 +54,9 @@ const Checkout = () => {
         </>
     );
 };
+
+Checkout.propTypes = {
+    authToken: PropTypes.string.isRequired
+}
 
 export default Checkout;
