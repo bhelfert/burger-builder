@@ -46,8 +46,8 @@ const ContactData = props => {
                 history.push('/');
             }
             catch (error) {
-                console.error('could not post order:', error.message);
                 setLoading(false);
+                console.error('could not post order:', error.message);
             }
         };
         postOrder();
