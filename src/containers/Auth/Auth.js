@@ -30,13 +30,11 @@ const Auth = props => {
         }));
     };
 
-    const handleSignIn = event => handleSubmit(event, 'signInWithPassword');
+    const handleSignIn = () => handleSubmit('signInWithPassword');
 
-    const handleSignUp = event => handleSubmit(event,'signUp');
+    const handleSignUp = () => handleSubmit('signUp');
 
-    const handleSubmit = (event, firebaseAccountAction) => {
-        event.preventDefault();
-
+    const handleSubmit = firebaseAccountAction => {
         const authenticate = async (firebaseAccountAction) => {
             const setTokenThatExpires = result => {
                 setToken({
@@ -81,7 +79,7 @@ const Auth = props => {
 
     let formOrSpinner = loading
         ? <Spinner />
-        : <form onSubmit={handleSubmit}>
+        : <form>
               <Input
                   label='Email Address'
                   type='email'
