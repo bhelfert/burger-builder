@@ -33,13 +33,13 @@ const ContactData = props => {
         event.preventDefault();
 
         const postOrder = async () => {
-            setLoading(true);
             try {
                 const order = {
                     contactData: contactData,
                     ingredients: props.ingredients,
                     price: props.price
                 };
+                setLoading(true);
                 const result = await axios.post('/orders.json', order);
                 setLoading(false);
                 console.info('posted order:', order, ' -- result:', result);
