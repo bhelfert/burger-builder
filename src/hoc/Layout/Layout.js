@@ -11,7 +11,7 @@ const Layout = props => {
     return (
         <>
             <Toolbar onDrawerToggleClick={handleDrawerToggleClick} />
-            <SideDrawer opened={showSideDrawer} onClose={() => setShowSideDrawer(false)} />
+            <SideDrawer isOpened={showSideDrawer} onClose={() => setShowSideDrawer(false)} />
             <main className={styles.content}>
                 {props.children}
             </main>

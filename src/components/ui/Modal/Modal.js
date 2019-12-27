@@ -5,12 +5,12 @@ import styles from './Modal.module.css';
 
 const Modal = props =>
     <>
-        <Backdrop show={props.show} onClick={props.onModalClosed}/>
+        <Backdrop isShown={props.isShown} onClick={props.onModalClosed}/>
         <div
             className={styles.modal}
             style={{
-                transform: props.show ? "translateY(0)" : "translateY(-100vh)",
-                opacity: props.show ? "1" : "0"
+                transform: props.isShown ? "translateY(0)" : "translateY(-100vh)",
+                opacity: props.isShown ? "1" : "0"
             }}>
             {props.children}
         </div>
@@ -19,8 +19,8 @@ const Modal = props =>
 const areEqual = (prevProps, nextProps) => (nextProps.show === prevProps.show) && (nextProps.children === prevProps.children);
 
 Modal.propTypes = {
-    onModalClosed: PropTypes.func.isRequired,
-    show: PropTypes.bool.isRequired
+    isShown: PropTypes.bool.isRequired,
+    onModalClosed: PropTypes.func.isRequired
 };
 
 export default React.memo(Modal, areEqual);

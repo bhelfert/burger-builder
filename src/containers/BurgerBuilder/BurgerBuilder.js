@@ -17,10 +17,10 @@ const BurgerBuilder = () => {
     };
 
     const [burger, setBurger] = useState({
-        checkout: false,
-        error: false,
+        isCheckout: false,
+        isError: false,
         ingredients: null,
-        loading: false,
+        isLoading: false,
         totalPrice: 0
     });
 
@@ -30,14 +30,14 @@ const BurgerBuilder = () => {
     useEffect(() => {
         const fetchIngredients = async () => {
             updateLoading(true);
-            const stateToMerge = { error: false, loading: false };
+            const stateToMerge = { isError: false, isLoading: false };
             try {
                 const result = await axios('ingredients.json');
                 stateToMerge.ingredients = result.data;
             }
             catch (error) {
                 console.error('could not fetch burger ingredients:', error.message);
-                stateToMerge.error = true;
+                stateToMerge.isError = true;
             }
             updateBurger(stateToMerge);
         };
@@ -78,9 +78,9 @@ const BurgerBuilder = () => {
         }));
     };
 
-    const updateCheckout = isCheckout => updateBurger({ checkout: isCheckout });
+    const updateCheckout = isCheckout => updateBurger({ isCheckout: isCheckout });
 
-    const updateLoading = isLoading => updateBurger({ loading: isLoading });
+    const updateLoading = isLoading => updateBurger({ isLoading: isLoading });
 
     const updateIngredientAmountAndTotalPrice = (type, amountOperator) => {
         const updatedBurger = { ...burger };
@@ -92,7 +92,7 @@ const BurgerBuilder = () => {
     const removeIngredientDisabledInfo = { ...burger.ingredients };
     Object.entries(removeIngredientDisabledInfo).forEach(([ingredient, amount]) => removeIngredientDisabledInfo[ingredient] = amount === 0);
 
-    const orderSummaryOrSpinnerOrNull = burger.loading
+    const orderSummaryOrSpinnerOrNull = burger.isLoading
         ? <Spinner />
         : burger.ingredients && <OrderSummary
                                     ingredients={burger.ingredients}
@@ -110,11 +110,11 @@ const BurgerBuilder = () => {
                   price={getFormattedPrice()}
                   removeIngredientDisabledInfo={removeIngredientDisabledInfo} />
         </>
-        : burger.error ? <p>Burger ingredients cannot be loaded!</p> : <Spinner />;
+        : burger.isError ? <p>Burger ingredients cannot be loaded!</p> : <Spinner />;
 
     return (
         <AxiosErrorHandler axios={axios}>
-            <Modal show={burger.checkout} onModalClosed={handleCancelCheckout}>
+            <Modal isShown={burger.isCheckout} onModalClosed={handleCancelCheckout}>
                 {orderSummaryOrSpinnerOrNull}
             </Modal>
             {burgerAndControlsOrSpinner}

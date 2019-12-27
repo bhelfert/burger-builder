@@ -7,16 +7,16 @@ import Spinner from '../../components/ui/Spinner/Spinner';
 
 const Orders = props => {
     const [state, setState] = useState({
-        error: false,
+        isError: false,
         orders: null,
-        loading: true
+        isLoading: true
     });
 
     // when componentDidMount():
     useEffect(() => {
         const fetchOrders = async () => {
-            updateState({ loading: true });
-            const stateToMerge = { error: false, loading: false };
+            updateState({ isLoading: true });
+            const stateToMerge = { isError: false, isLoading: false };
             try {
                 const result = await axios('/orders.json?auth=' + props.authToken);
                 stateToMerge.orders = [];
@@ -29,7 +29,7 @@ const Orders = props => {
             }
             catch (error) {
                 console.error('could not fetch orders:', error.message);
-                stateToMerge.error = true;
+                stateToMerge.isError = true;
             }
             updateState(stateToMerge);
         };
@@ -51,7 +51,7 @@ const Orders = props => {
                 ingredients={order.ingredients}
                 key={order.id}
                 price={order.price} />)
-        : state.error ? <p>Orders cannot be loaded!</p> : <Spinner />;
+        : state.isError ? <p>Orders cannot be loaded!</p> : <Spinner />;
 
     return (
         <AxiosErrorHandler axios={axios}>

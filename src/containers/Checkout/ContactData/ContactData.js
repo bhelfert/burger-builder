@@ -16,7 +16,7 @@ const ContactData = props => {
         city: ''
     });
 
-    const [loading, setLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const history = useHistory();
 
@@ -39,21 +39,21 @@ const ContactData = props => {
                     ingredients: props.ingredients,
                     price: props.price
                 };
-                setLoading(true);
+                setIsLoading(true);
                 const result = await axios.post('/orders.json?auth=' + props.authToken, order);
-                setLoading(false);
+                setIsLoading(false);
                 console.info('posted order:', order, ' -- result:', result);
                 history.push('/');
             }
             catch (error) {
-                setLoading(false);
+                setIsLoading(false);
                 console.error('could not post order:', error.message);
             }
         };
         postOrder();
     };
 
-    const formOrSpinner = loading
+    const formOrSpinner = isLoading
         ? <Spinner />
         : <form onSubmit={handleSubmit}>
               <Input label='Name'     type='text'  name='name'    value={contactData.name}    placeholder='Your name'     onChange={handleInputChange} required />

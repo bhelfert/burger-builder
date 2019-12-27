@@ -24,7 +24,7 @@ const AxiosErrorHandler = props => {
 
     return (
         <>
-            <Modal show={error ? true : false} onModalClosed={clearError}>
+            <Modal isShown={error ? true : false} onModalClosed={clearError}>
                 {error ? error.message : null}
             </Modal>
             {props.children}

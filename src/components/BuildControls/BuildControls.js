@@ -19,7 +19,7 @@ const BuildControls = props =>
                 label={control.label}
                 onAddIngredient={() => props.onAddIngredient(control.type)}
                 onRemoveIngredient={() => props.onRemoveIngredient(control.type)}
-                removeIngredientDisabled={props.removeIngredientDisabledInfo[control.type]} />)}
+                isRemoveIngredientDisabled={props.removeIngredientDisabledInfo[control.type]} />)}
         <button
             className={styles.orderButton}
             disabled={Number.parseFloat(props.price) === 0}

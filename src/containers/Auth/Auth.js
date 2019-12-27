@@ -9,7 +9,7 @@ import styles from './Auth.module.css';
 const Auth = props => {
     const [error, setError] = useState(null);
 
-    const [loading, setLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const [token, setToken] = useState({
         expiresIn: null, // seconds
@@ -64,20 +64,20 @@ const Auth = props => {
                     returnSecureToken: true
                 };
                 setError(null);
-                setLoading(true);
+                setIsLoading(true);
                 const result = await axios.post(':' + firebaseAccountAction, authData);
-                setLoading(false);
+                setIsLoading(false);
                 console.info('posted auth data:', authData, ' -- result:', result);
                 setTokenThatExpires(result);
             } catch (error) {
-                setLoading(false);
+                setIsLoading(false);
                 setError(getErrorMessage(error));
             }
         };
         authenticate(firebaseAccountAction);
     };
 
-    let formOrSpinner = loading
+    let formOrSpinner = isLoading
         ? <Spinner />
         : <form>
               <Input
