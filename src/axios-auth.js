@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const FIREBASE_WEB_API_KEY = 'Please_configure_Google_Firebase_Web_API_Key_in_file_axios-auth.js';
+const FIREBASE_WEB_API_KEY = 'Please_configure_Google_Firebase_Web_API_Key_in_file_axios-auth.js';
 
 const instance = axios.create({
     baseURL: 'https://identitytoolkit.googleapis.com/v1/accounts'
