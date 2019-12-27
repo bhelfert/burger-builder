@@ -11,11 +11,6 @@ const Auth = props => {
 
     const [isLoading, setIsLoading] = useState(false);
 
-    const [token, setToken] = useState({
-        expiresIn: null, // seconds
-        idToken: null
-    });
-
     const [user, setUser] = useState({
         email: '',
         password: ''
@@ -37,16 +32,7 @@ const Auth = props => {
     const handleSubmit = firebaseAccountAction => {
         const authenticate = async (firebaseAccountAction) => {
             const setTokenThatExpires = result => {
-                setToken({
-                    expiresIn: result.data.expiresIn,
-                    idToken: result.data.idToken
-                });
-                setTimeout(() => {
-                    setToken(prevToken => ({
-                        ...prevToken,
-                        idToken: null
-                    }));
-                }, result.data.expiresIn * 1000);
+                setTimeout(() => props.onTokenChange(result.data.idToken), result.data.expiresIn * 1000);
                 props.onTokenChange(result.data.idToken);
             };
 

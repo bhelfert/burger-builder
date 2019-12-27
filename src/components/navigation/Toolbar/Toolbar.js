@@ -12,12 +12,13 @@ const Toolbar = props =>
             <Logo />
         </div>
         <nav className={styles.desktopOnly}>
-            <NavigationItems />
+            <NavigationItems isAuthenticated={props.isAuthenticated} />
         </nav>
     </header>;
 
 Toolbar.propTypes = {
+    isAuthenticated: PropTypes.bool.isRequired,
     onDrawerToggleClick: PropTypes.func.isRequired
-}
+};
 
 export default Toolbar;

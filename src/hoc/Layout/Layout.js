@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import SideDrawer from '../../components/navigation/SideDrawer/SideDrawer';
 import styles from './Layout.module.css';
@@ -10,13 +11,22 @@ const Layout = props => {
 
     return (
         <>
-            <Toolbar onDrawerToggleClick={handleDrawerToggleClick} />
-            <SideDrawer isOpened={showSideDrawer} onClose={() => setShowSideDrawer(false)} />
+            <Toolbar
+                isAuthenticated={props.isAuthenticated}
+                onDrawerToggleClick={handleDrawerToggleClick} />
+            <SideDrawer
+                isAuthenticated={props.isAuthenticated}
+                isOpened={showSideDrawer}
+                onClose={() => setShowSideDrawer(false)} />
             <main className={styles.content}>
                 {props.children}
             </main>
         </>
     );
+};
+
+Layout.propTypes = {
+    isAuthenticated: PropTypes.bool.isRequired
 };
 
 export default Layout;

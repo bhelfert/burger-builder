@@ -3,16 +3,19 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
 import Checkout from './containers/Checkout/Checkout';
 import Layout from './hoc/Layout/Layout';
+import Logout from './containers/Auth/Logout/Logout';
 import Orders from './containers/Orders/Orders';
 import React, { useState } from 'react';
 
+const NOT_AUTHENTICATED = '';
+
 const App = () => {
-    const [authToken, setAuthToken] = useState('');
+    const [authToken, setAuthToken] = useState(NOT_AUTHENTICATED);
 
     return (
         <Router>
             <div>
-                <Layout>
+                <Layout isAuthenticated={authToken !== NOT_AUTHENTICATED}>
                     <Switch>
                         <Route exact path='/'>
                             <BurgerBuilder />
@@ -22,6 +25,9 @@ const App = () => {
                         </Route>
                         <Route path='/checkout'>
                             <Checkout authToken={authToken} />
+                        </Route>
+                        <Route path='/logout'>
+                            <Logout onLogOut={() => setAuthToken(NOT_AUTHENTICATED)} />
                         </Route>
                         <Route path='/orders'>
                             <Orders authToken={authToken} />
