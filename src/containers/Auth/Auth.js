@@ -78,7 +78,7 @@ const Auth = props => {
                   value={user.email}
                   placeholder='Please enter your email address'
                   onChange={handleInputChange}
-                  required/>
+                  required />
               <Input
                   label='Password'
                   type='password'
@@ -87,7 +87,7 @@ const Auth = props => {
                   placeholder='Please enter your password'
                   onChange={handleInputChange}
                   required
-                  minLength='6'/>
+                  minLength='6' />
               <Button type='ok' onClick={handleSignIn}>Sign In</Button>
               <Button type='cancel' onClick={handleSignUp}>Sign Up</Button>
           </form>;
