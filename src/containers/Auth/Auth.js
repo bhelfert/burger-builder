@@ -12,8 +12,6 @@ const Auth = props => {
 
     const [isLoading, setIsLoading] = useState(false);
 
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-
     const [user, setUser] = useState({
         email: '',
         password: ''
@@ -58,10 +56,8 @@ const Auth = props => {
                 setIsLoading(false);
                 console.info('posted auth data:', authData, ' -- result:', result);
                 setTokenThatExpires(result);
-                setIsAuthenticated(true);
             } catch (error) {
                 setIsLoading(false);
-                setIsAuthenticated(false);
                 setError(getErrorMessage(error));
             }
         };
@@ -94,7 +90,7 @@ const Auth = props => {
 
     return (
         <div className={styles.auth}>
-            {isAuthenticated && <Redirect to='/' />}
+            {props.isAuthenticated && <Redirect to='/' />}
             {error && <p>{error}</p>}
             {formOrSpinner}
         </div>
@@ -102,6 +98,7 @@ const Auth = props => {
 };
 
 Auth.propTypes = {
+    isAuthenticated: PropTypes.bool.isRequired,
     onTokenChange: PropTypes.func.isRequired
 };
 
