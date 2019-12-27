@@ -3,6 +3,7 @@ import Button from '../../components/ui/Button/Button';
 import Input from '../../components/ui/Input/Input';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import Spinner from '../../components/ui/Spinner/Spinner';
 import styles from './Auth.module.css';
 
@@ -10,6 +11,8 @@ const Auth = props => {
     const [error, setError] = useState(null);
 
     const [isLoading, setIsLoading] = useState(false);
+
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     const [user, setUser] = useState({
         email: '',
@@ -55,8 +58,10 @@ const Auth = props => {
                 setIsLoading(false);
                 console.info('posted auth data:', authData, ' -- result:', result);
                 setTokenThatExpires(result);
+                setIsAuthenticated(true);
             } catch (error) {
                 setIsLoading(false);
+                setIsAuthenticated(false);
                 setError(getErrorMessage(error));
             }
         };
@@ -89,6 +94,7 @@ const Auth = props => {
 
     return (
         <div className={styles.auth}>
+            {isAuthenticated && <Redirect to='/' />}
             {error && <p>{error}</p>}
             {formOrSpinner}
         </div>
